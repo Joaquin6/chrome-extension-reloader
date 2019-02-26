@@ -1,32 +1,32 @@
-const path = require("path");
-const { BannerPlugin } = require("webpack");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const pack = require("./package.json");
-const { isDevelopment, isProduction, test } = require("./src/utils/env");
+const path = require('path');
+const { BannerPlugin } = require('webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const pack = require('./package.json');
+const { isDevelopment, isProduction, test } = require('./src/utils/env');
 
-const mode = isDevelopment ? "development" : "production";
+const mode = isDevelopment ? 'development' : 'production';
 
 module.exports = (env = { analyze: false }) => ({
   mode,
-  target: "node",
-  entry: test({ tests: "./specs/index.ts" }) || {
-    "webpack-chrome-extension-reloader": "./src/index.ts",
-    wcer: "./client/index.ts"
+  target: 'node',
+  entry: test({ tests: './specs/index.ts' }) || {
+    'webpack-chrome-extension-reloader': './src/index.ts',
+    wcer: './client/index.ts'
   },
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   output: {
-    publicPath: ".",
-    path: path.resolve(__dirname, "./dist"),
-    filename: "[name].js",
-    libraryTarget: "umd"
+    publicPath: '.',
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].js',
+    libraryTarget: 'umd'
   },
   plugins: [
     env.analyze && isProduction && (new BundleAnalyzerPlugin({ sourceMap: true })),
     new BannerPlugin({
-      banner: "#!/usr/bin/env node",
+      banner: '#!/usr/bin/env node',
       raw: true,
       entryOnly: true,
-      include: "wcer"
+      include: 'wcer'
     }),
     new BannerPlugin({
       banner: '/// <reference path="../typings/[name].d.ts" />',
@@ -37,13 +37,13 @@ module.exports = (env = { analyze: false }) => ({
   ].filter((plugin) => !!plugin),
   externals: [
     ...Object.keys(pack.dependencies),
-    "webpack",
-    "webpack-chrome-extension-reloader"
+    'webpack',
+    'webpack-chrome-extension-reloader'
   ],
   resolve: {
-    modules: [path.resolve(__dirname, "src"), "node_modules"],
-    mainFiles: ["index"],
-    extensions: [".ts", ".tsx", ".js"]
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    mainFiles: ['index'],
+    extensions: ['.ts', '.tsx', '.js']
   },
   optimization: {
     minimize: false,
@@ -53,12 +53,12 @@ module.exports = (env = { analyze: false }) => ({
     rules: [
       {
         test: /\.ts$/,
-        enforce: "pre",
+        enforce: 'pre',
         use: [
           {
-            loader: "tslint-loader",
+            loader: 'tslint-loader',
             options: {
-              configFile: "./tslint.json"
+              configFile: './tslint.json'
             }
           }
         ]
@@ -66,22 +66,22 @@ module.exports = (env = { analyze: false }) => ({
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader"]
+        loaders: ['babel-loader']
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader", "ts-loader"]
+        loaders: ['babel-loader', 'ts-loader']
       },
       {
         test: /\.json$/,
         exclude: /node_modules/,
-        loaders: ["json-loader"]
+        loaders: ['json-loader']
       },
       {
         test: /\.txt$/,
         exclude: /node_modules/,
-        loaders: ["raw-loader"]
+        loaders: ['raw-loader']
       }
     ]
   }
