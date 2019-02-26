@@ -1,0 +1,9 @@
+{
+  "name": "chrome-extension-reloader",
+  "version": "0.1.0",
+  "description": "Watch for changes and force the reload of chrome extensions",
+  "main": "index.js",
+  "repository": "git@github.com:Joaquin6/chrome-extension-reloader.git",
+  "author": "joaquin6 <joaquinbriceno1@gmail.com>",
+  "license": "MIT"
+}
